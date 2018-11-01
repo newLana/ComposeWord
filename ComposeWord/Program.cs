@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComposeWord
 {
@@ -24,16 +21,19 @@ namespace ComposeWord
         static string WordComposing(string[] rules)
         {
             LinkedList<char> word = new LinkedList<char>();
-            LinkedListNode<char> node;
-            foreach(var rule in rules)
+            LinkedListNode<char> firstNode;
+            LinkedListNode<char> secondNode;
+            foreach (var rule in rules)
             {
-                if((node = word.Find(rule[0])) != null)
+                firstNode = word.Find(rule[0]);
+                secondNode = word.Find(rule[2]);
+                if (firstNode != null)
                 {
-                    word.AddAfter(node, rule[2]);
+                    word.AddAfter(firstNode, rule[2]);
                 }
-                else if((node = word.Find(rule[2])) != null)
+                else if(secondNode != null)
                 {
-                    word.AddBefore(node, rule[0]);
+                    word.AddBefore(secondNode, rule[0]);
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace ComposeWord
                     word.AddLast(rule[2]);
                 }
             }
-            return string.Join("", word.Select(c => c));
+            return string.Join("", word);
         }
     }
 }
